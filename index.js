@@ -1,6 +1,7 @@
 require('dotenv').config();
 const util = require('util');
 const app = require('express')();
+const address = require('address');
 const exec = util.promisify(require('child_process').exec);
 
 const run = async (cmd) => {
@@ -12,6 +13,12 @@ const run = async (cmd) => {
   }
 };
 
+// Checks if webhook is online
+app.get('/', (_, res) => {
+  res.send({ isOnline: true });
+});
+
+// Deploys docker image
 app.get('/deploy', async (req, res) => {
   const { key } = req.query;
   if (key === process.env.DEPLOY_KEY) {
@@ -23,7 +30,11 @@ app.get('/deploy', async (req, res) => {
 
 const start = async () => {
   await run('chmod +x ./deploy.sh');
-  app.listen(3000);
+  app.listen(process.env.PORT_WEBHOOK, () => {
+    console.log(
+      `🚀 WEBHOOK at http://${address.ip()}:${process.env.PORT_WEBHOOK}/`
+    );
+  });
 };
 
 start();
