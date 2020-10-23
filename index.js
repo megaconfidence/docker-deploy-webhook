@@ -4,6 +4,7 @@ const app = require('express')();
 const address = require('address');
 const exec = util.promisify(require('child_process').exec);
 
+// Runs shell commands
 const run = async (cmd) => {
   try {
     const { stdout, stderr } = await exec(cmd);
@@ -30,9 +31,9 @@ app.get('/deploy', async (req, res) => {
 
 const start = async () => {
   await run('chmod +x ./deploy.sh');
-  app.listen(process.env.PORT_WEBHOOK, () => {
+  app.listen(process.env.WEBHOOK_PORT, () => {
     console.log(
-      `🚀 WEBHOOK at http://${address.ip()}:${process.env.PORT_WEBHOOK}/`
+      `🚀 WEBHOOK at http://${address.ip()}:${process.env.WEBHOOK_PORT}/`
     );
   });
 };

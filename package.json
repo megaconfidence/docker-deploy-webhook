@@ -1,5 +1,5 @@
 {
-  "name": "open-song-database-api-webhook",
+  "name": "docker-deploy-webhook",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
